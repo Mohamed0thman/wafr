@@ -3,6 +3,8 @@ import {connectToDatabase} from "../../db/db-service";
 import {addTransaction, getTransactions} from "../../db/transactions";
 import {Transaction} from "../../types";
 import {showMessage} from "react-native-flash-message";
+import {createSelector} from "reselect";
+import {RootState} from "../configureStore";
 
 interface InitialState {
   balance: number;

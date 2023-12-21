@@ -3,4 +3,14 @@ import PlusIcon from "../assets/icons/PlusIcon.svg";
 import ChartIcon from "../assets/icons/ChartIcon.svg";
 import CalendarIcon from "../assets/icons/CalendarIcon.svg";
 
-export default {HomeIcon, ChartIcon, PlusIcon, CalendarIcon};
+import SortAZIcon from "../assets/icons/SortAZIcon.svg";
+import SortZAIcon from "../assets/icons/SortZAIcon.svg";
+
+export default {
+  HomeIcon,
+  ChartIcon,
+  PlusIcon,
+  CalendarIcon,
+  SortAZIcon,
+  SortZAIcon,
+};

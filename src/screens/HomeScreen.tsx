@@ -1,24 +1,52 @@
 import {FlatList, StyleSheet, View} from "react-native";
-import React, {useCallback, useEffect} from "react";
-import {CustomButton, RootScreen, Spinner, Typography} from "../components";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
+import {
+  CustomButton,
+  IconButton,
+  RootScreen,
+  Spinner,
+  Typography,
+} from "../components";
 import {useAppDispatch, useAppSelector} from "../store/configureStore";
 import {getTransactionsAsync} from "../store/slices/transactionSlice";
-import {COLORS, SCALE, SIZES, FONTS} from "../constants";
+import {COLORS, SCALE, SIZES, FONTS, ICONS} from "../constants";
 import {Transaction} from "../types";
 import {BottomTabScreenProps} from "@react-navigation/bottom-tabs";
 import {TabParamList} from "../navigation/BottonTab";
 import dayjs from "dayjs";
 
-const {vs, mvs, ms} = SCALE;
+const {vs, mvs, ms, s} = SCALE;
+const {SortAZIcon, SortZAIcon} = ICONS;
 
 type Props = BottomTabScreenProps<TabParamList, "Home"> & {};
 
 const HomeScreen = ({navigation}: Props) => {
+  const [sortAscending, setSortAscending] = useState(true);
+
   const {transactions, balance, income, expenses, isLoading} = useAppSelector(
     state => state.transaction,
   );
 
   const dispatch = useAppDispatch();
+
+  const sortedData = useMemo(() => {
+    const sortedArray = [...transactions].sort((a, b) => {
+      const dateA = new Date(a.date).valueOf();
+      const dateB = new Date(b.date).valueOf();
+
+      if (sortAscending) {
+        return dateA - dateB;
+      } else {
+        return dateB - dateA;
+      }
+    });
+
+    return sortedArray;
+  }, [transactions, sortAscending]);
+
+  const toggleSort = () => {
+    setSortAscending(!sortAscending);
+  };
 
   useEffect(() => {
     dispatch(getTransactionsAsync());
@@ -72,8 +100,24 @@ const HomeScreen = ({navigation}: Props) => {
           </View>
         </View>
       </View>
+
+      <View style={[styles.row, styles.sortContainer]}>
+        <Typography style={{...FONTS.h2}}>Sort</Typography>
+        <IconButton
+          style={{}}
+          icon={
+            sortAscending ? (
+              <SortZAIcon fill={COLORS.white} width={s(24)} height={s(24)} />
+            ) : (
+              <SortAZIcon fill={COLORS.white} width={s(24)} height={s(24)} />
+            )
+          }
+          onPress={toggleSort}
+        />
+      </View>
+
       <FlatList
-        data={transactions}
+        data={sortedData}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item, index) => `${item.id}`}
         renderItem={renderItem}
@@ -131,4 +175,5 @@ const styles = StyleSheet.create({
   emptyTitle: {color: COLORS.white, ...FONTS.h3},
   emptySubtitle: {color: COLORS.white, marginTop: mvs(20), ...FONTS.h3},
   btn: {backgroundColor: COLORS.white, width: "50%", marginTop: mvs(20)},
+  sortContainer: {marginBottom: mvs(20), alignItems: "center"},
 });
