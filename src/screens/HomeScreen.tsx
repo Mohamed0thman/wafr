@@ -14,6 +14,7 @@ import {Transaction} from "../types";
 import {BottomTabScreenProps} from "@react-navigation/bottom-tabs";
 import {TabParamList} from "../navigation/BottonTab";
 import dayjs from "dayjs";
+import useSort from "../hooks/useSort";
 
 const {vs, mvs, ms, s} = SCALE;
 const {SortAZIcon, SortZAIcon} = ICONS;
@@ -21,32 +22,13 @@ const {SortAZIcon, SortZAIcon} = ICONS;
 type Props = BottomTabScreenProps<TabParamList, "Home"> & {};
 
 const HomeScreen = ({navigation}: Props) => {
-  const [sortAscending, setSortAscending] = useState(true);
-
   const {transactions, balance, income, expenses, isLoading} = useAppSelector(
     state => state.transaction,
   );
 
+  const {sortAscending, sortedData, toggleSort} = useSort(transactions);
+
   const dispatch = useAppDispatch();
-
-  const sortedData = useMemo(() => {
-    const sortedArray = [...transactions].sort((a, b) => {
-      const dateA = new Date(a.date).valueOf();
-      const dateB = new Date(b.date).valueOf();
-
-      if (sortAscending) {
-        return dateA - dateB;
-      } else {
-        return dateB - dateA;
-      }
-    });
-
-    return sortedArray;
-  }, [transactions, sortAscending]);
-
-  const toggleSort = () => {
-    setSortAscending(!sortAscending);
-  };
 
   useEffect(() => {
     dispatch(getTransactionsAsync());
