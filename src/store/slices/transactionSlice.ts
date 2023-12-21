@@ -44,13 +44,15 @@ export const getTransactionsAsync = createAsyncThunk(
       console.log("formatDataformatDataformatData", formatData);
 
       return {...formatData, data};
-    } catch (error) {}
+    } catch (error) {
+      return thunkAPI.rejectWithValue({error});
+    }
   },
 );
 
 export const addTransactionAsync = createAsyncThunk<Transaction, Transaction>(
   "transaction/addTransaction",
-  async (data, _thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
       const {amount, category, date, description, type} = data;
       const db = await connectToDatabase();
@@ -77,6 +79,8 @@ export const addTransactionAsync = createAsyncThunk<Transaction, Transaction>(
         message: "add transaction failed",
         type: "danger",
       });
+
+      return thunkAPI.rejectWithValue({error});
     }
   },
 );
