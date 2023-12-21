@@ -3,8 +3,6 @@ import {connectToDatabase} from "../../db/db-service";
 import {addTransaction, getTransactions} from "../../db/transactions";
 import {Transaction} from "../../types";
 import {showMessage} from "react-native-flash-message";
-import {createSelector} from "reselect";
-import {RootState} from "../configureStore";
 
 interface InitialState {
   balance: number;
@@ -43,7 +41,6 @@ export const getTransactionsAsync = createAsyncThunk(
         },
         {income: 0, expenses: 0, balance: 0},
       );
-      console.log("formatDataformatDataformatData", formatData);
 
       return {...formatData, data};
     } catch (error) {
@@ -58,7 +55,6 @@ export const addTransactionAsync = createAsyncThunk<Transaction, Transaction>(
     try {
       const {amount, category, date, description, type} = data;
       const db = await connectToDatabase();
-      console.log("qqqqqqqqqqqqqq");
 
       await addTransaction({
         db,
@@ -70,18 +66,16 @@ export const addTransactionAsync = createAsyncThunk<Transaction, Transaction>(
           description,
         },
       });
-      console.log("wwwwwwwww");
 
       showMessage({
         message: "add transaction success",
         type: "success",
       });
-      console.log("ssssssssss");
 
       const timestamp = new Date().getTime();
       const randomDigits = Math.floor(Math.random() * 10000);
 
-      return {...data};
+      return {id: `${timestamp} ${randomDigits}`, ...data};
     } catch (error) {
       showMessage({
         message: "add transaction failed",
