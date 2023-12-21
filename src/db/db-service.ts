@@ -25,7 +25,7 @@ export const createTables = async (db: SQLiteDatabase) => {
         category TEXT,
         amount FLOAT,
         description TEXT,
-        date TEXT
+        date TIMESTAMP
      )
     `;
   try {

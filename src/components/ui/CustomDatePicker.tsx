@@ -9,7 +9,11 @@ const {s, vs, ms, mvs} = SCALE;
 
 const {CalendarIcon} = ICONS;
 
-const CustomDatePicker = () => {
+type Props = {
+  handleOnChangeDate?: (date: Date) => void;
+};
+
+const CustomDatePicker = ({handleOnChangeDate}: Props) => {
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
 
@@ -27,6 +31,7 @@ const CustomDatePicker = () => {
         onConfirm={date => {
           setOpen(false);
           setDate(date);
+          handleOnChangeDate?.(date);
         }}
         onCancel={() => {
           setOpen(false);

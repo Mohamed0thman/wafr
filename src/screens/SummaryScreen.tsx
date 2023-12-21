@@ -1,45 +1,29 @@
 import {StyleSheet, Text, View} from "react-native";
 import React from "react";
 import {PieChart} from "react-native-chart-kit";
-import {SCALE} from "../constants";
+import {COLORS, SCALE} from "../constants";
 import {RootScreen} from "../components";
+import {useAppSelector} from "../store/configureStore";
 
-const {SC_Width} = SCALE;
+const {SC_Width, ms} = SCALE;
 
 const SummaryScreen = () => {
+  const {transactions, balance, income, expenses} = useAppSelector(
+    state => state.transaction,
+  );
+
   const data = [
     {
-      name: "Seoul",
-      population: 21500000,
-      color: "rgba(131, 167, 234, 1)",
+      name: "Income",
+      population: income,
+      color: COLORS.success,
       legendFontColor: "#7F7F7F",
       legendFontSize: 15,
     },
     {
-      name: "Toronto",
-      population: 2800000,
-      color: "#F00",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15,
-    },
-    {
-      name: "Beijing",
-      population: 527612,
-      color: "red",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15,
-    },
-    {
-      name: "New York",
-      population: 8538000,
-      color: "#ffffff",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15,
-    },
-    {
-      name: "Moscow",
-      population: 11920000,
-      color: "rgb(0, 0, 255)",
+      name: "Expenses",
+      population: expenses,
+      color: COLORS.danger,
       legendFontColor: "#7F7F7F",
       legendFontSize: 15,
     },
@@ -65,7 +49,7 @@ const SummaryScreen = () => {
       <PieChart
         data={data}
         width={SC_Width}
-        height={300}
+        height={ms(300)}
         chartConfig={chartConfig}
         accessor={"population"}
         backgroundColor={"transparent"}

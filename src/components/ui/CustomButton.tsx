@@ -8,17 +8,26 @@ import {
 } from "react-native";
 import React from "react";
 import {COLORS, FONTS, SCALE, SIZES} from "../../constants";
+import Typography from "./Typography";
 
 const {mvs} = SCALE;
 
 type Props = TouchableOpacityProps & {
   label: string;
+  labelColor?: string;
 };
 
-const CustomButton = ({label, style, onPress}: Props) => {
+const CustomButton = ({
+  label,
+  style,
+  labelColor = COLORS.white,
+  onPress,
+}: Props) => {
   return (
     <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
-      <Text style={styles.title}>{label}</Text>
+      <Typography style={[styles.title]} color={labelColor}>
+        {label}
+      </Typography>
     </TouchableOpacity>
   );
 };
@@ -34,8 +43,7 @@ const styles = StyleSheet.create({
     borderRadius: SIZES.radius,
   },
   title: {
-    ...FONTS.h3,
-    color: COLORS.white,
+    ...FONTS.h2,
     paddingVertical: mvs(SIZES.base),
   },
 });

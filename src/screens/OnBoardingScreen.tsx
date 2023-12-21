@@ -5,12 +5,16 @@ import {COLORS, IMAGES, FONTS, SCALE, SIZES} from "../constants";
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {RootStackParamList} from "../navigation/RootNavigation";
 import Typography from "../components/ui/Typography";
+import {useAppDispatch} from "../store/configureStore";
+import {toggelOnBoarding} from "../store/slices/settingSlice";
 
-const {ms, mvs} = SCALE;
+const {s, vs, ms, mvs} = SCALE;
 
 type Props = NativeStackScreenProps<RootStackParamList, "onBoarding"> & {};
 
 const OnBoardingScreen = ({navigation}: Props) => {
+  const dispatch = useAppDispatch();
+
   return (
     <RootScreen style={styles.root}>
       <Image
@@ -24,7 +28,10 @@ const OnBoardingScreen = ({navigation}: Props) => {
 
       <CustomButton
         label="Get Started"
-        onPress={() => navigation.navigate("MainApp")}
+        onPress={() => {
+          dispatch(toggelOnBoarding(true));
+          navigation.navigate("MainApp");
+        }}
         style={styles.btn}
       />
     </RootScreen>
@@ -39,8 +46,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    width: 300,
-    height: 300,
+    width: s(300),
+    height: vs(300),
     marginTop: mvs(SIZES.base * 8),
   },
   title: {

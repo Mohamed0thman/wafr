@@ -6,7 +6,7 @@
  */
 
 import React, {useCallback, useEffect} from "react";
-import {StyleSheet} from "react-native";
+import {Platform, StyleSheet} from "react-native";
 import {SafeAreaProvider} from "react-native-safe-area-context";
 import {Provider} from "react-redux";
 import {persistor, store} from "./store/configureStore";
@@ -14,8 +14,10 @@ import {PersistGate} from "redux-persist/integration/react";
 import RootNavigation from "./navigation/RootNavigation";
 import FlashMessage from "react-native-flash-message";
 import {connectToDatabase, createTables, getTableNames} from "./db/db-service";
-import {addTransaction, getTransactions} from "./db/transactions";
-import SplashScreen from 'react-native-splash-screen';
+import SplashScreen from "react-native-splash-screen";
+import {SCALE} from "./constants";
+
+const {mvs} = SCALE;
 
 function App(): JSX.Element {
   const loadData = useCallback(async () => {
@@ -23,16 +25,6 @@ function App(): JSX.Element {
       const db = await connectToDatabase();
       await createTables(db);
       const tabels = await getTableNames(db);
-      await addTransaction(db, {
-        amount: 400,
-        category: "asdasdsa",
-        date: "2132132321",
-        type: "expense",
-        description: "2132132321",
-      });
-      const data = await getTransactions(db);
-      console.log("data", data);
-
       console.log("tabels", tabels);
     } catch (error) {
       console.error(error);
@@ -46,7 +38,7 @@ function App(): JSX.Element {
   }, []);
 
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider style={styles.rootScreen}>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <FlashMessage position="top" />
@@ -57,6 +49,8 @@ function App(): JSX.Element {
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  rootScreen: {paddingTop: Platform.OS === "ios" ? mvs(40) : 0},
+});
 
 export default App;

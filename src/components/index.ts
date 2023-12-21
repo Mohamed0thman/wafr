@@ -7,3 +7,4 @@ export {default as TextField} from "./ui/TextField";
 export {default as Typography} from "./ui/Typography";
 export {default as CustomDatePicker} from "./ui/CustomDatePicker";
 export {default as ToggleButtom} from "./ui/ToggleButton";
+export {default as Spinner} from "./ui/Spinner";

@@ -1,25 +1,33 @@
 import {StyleSheet, View} from "react-native";
-import React, {useState} from "react";
+import React from "react";
 import CustomButton from "./CustomButton";
 import {COLORS, SCALE, SIZES} from "../../constants";
 
-const {s, ms, mvs} = SCALE;
+const {mvs} = SCALE;
 
-const ToggleButtom = () => {
-  const [type, setType] = useState<"expense" | "income">("income");
+type Props = {
+  data: [string, string];
+  handleOnSelect: (selected: string) => void;
+  value: string;
+};
+
+const ToggleButtom = ({handleOnSelect, value}: Props) => {
   return (
     <View style={styles.container}>
-      {(["expense", "income"] as ["expense", "income"]).map(item => (
+      {["expense", "income"].map((item, index) => (
         <CustomButton
-          key={item}
+          key={index}
           label={item}
           style={[
             styles.btn,
             {
-              backgroundColor: type === item ? COLORS.primary : COLORS.darkGrey,
+              backgroundColor:
+                value === item ? COLORS.primary : COLORS.darkGrey,
             },
           ]}
-          onPress={() => setType(item)}
+          onPress={() => {
+            handleOnSelect(item);
+          }}
         />
       ))}
     </View>

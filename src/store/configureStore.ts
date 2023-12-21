@@ -3,14 +3,18 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {persistStore, persistReducer} from "redux-persist";
 
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
-import mainSlice from "./slices/mainSlice";
+import settingSlice from "./slices/settingSlice";
+import transactionSlice from "./slices/transactionSlice";
 
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
+  whitelist: ["setting"],
+  blacklist: ["transaction"],
 };
 const rootReducer = combineReducers({
-  main: mainSlice.reducer,
+  transaction: transactionSlice.reducer,
+  setting: settingSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

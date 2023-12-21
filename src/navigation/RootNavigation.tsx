@@ -1,8 +1,10 @@
+import React from "react";
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 
 import TabNavigator from "./BottonTab";
 import {OnBoardingScreen} from "../screens";
+import {useAppSelector} from "../store/configureStore";
 
 export type RootStackParamList = {
   onBoarding: undefined;
@@ -12,6 +14,8 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigation() {
+  const {showOnBoarding} = useAppSelector(state => state.setting);
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -19,7 +23,9 @@ export default function RootNavigation() {
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="onBoarding" component={OnBoardingScreen} />
+        {!showOnBoarding && (
+          <Stack.Screen name="onBoarding" component={OnBoardingScreen} />
+        )}
         <Stack.Screen name="MainApp" component={TabNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
