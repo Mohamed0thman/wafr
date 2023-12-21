@@ -4,7 +4,7 @@
 
 ## Hours Worked
 
-- 8 Hourse
+- 8 Hours
 
 ## Features
 
@@ -31,7 +31,7 @@
 - to build the app for android
 
 ```shell
-    pod insatll
+    npx pod-install ios
     yarn run ios
 
 ```
