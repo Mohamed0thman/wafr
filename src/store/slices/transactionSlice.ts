@@ -58,24 +58,30 @@ export const addTransactionAsync = createAsyncThunk<Transaction, Transaction>(
     try {
       const {amount, category, date, description, type} = data;
       const db = await connectToDatabase();
+      console.log("qqqqqqqqqqqqqq");
 
-      await addTransaction(db, {
-        amount,
-        category,
-        date,
-        type,
-        description,
+      await addTransaction({
+        db,
+        transaction: {
+          amount,
+          category,
+          date,
+          type,
+          description,
+        },
       });
+      console.log("wwwwwwwww");
 
       showMessage({
         message: "add transaction success",
         type: "success",
       });
+      console.log("ssssssssss");
 
       const timestamp = new Date().getTime();
       const randomDigits = Math.floor(Math.random() * 10000);
 
-      return {id: `${timestamp}${randomDigits}`, ...data};
+      return {...data};
     } catch (error) {
       showMessage({
         message: "add transaction failed",

@@ -1,21 +1,24 @@
 import {SQLiteDatabase} from "react-native-sqlite-storage";
 import {Transaction} from "../types";
 
-export const addTransaction = async (
-  db: SQLiteDatabase,
-  Transaction: Transaction,
-) => {
+export const addTransaction = async ({
+  db,
+  transaction,
+}: {
+  db: SQLiteDatabase;
+  transaction: Transaction;
+}) => {
   const insertQuery = `
      INSERT INTO Transactions (type, category, amount, description, date)
      VALUES (?, ?, ?, ?, ?) 
      
    `;
   const values = [
-    Transaction.type,
-    Transaction.category,
-    Transaction.amount,
-    Transaction.description,
-    Transaction.date,
+    transaction.type,
+    transaction.category,
+    transaction.amount,
+    transaction.description,
+    transaction.date,
   ];
   try {
     return db.executeSql(insertQuery, values);

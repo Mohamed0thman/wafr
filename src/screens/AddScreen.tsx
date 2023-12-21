@@ -3,7 +3,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
@@ -68,7 +67,7 @@ const AddScreen = () => {
                   label="amount"
                   keyboardType="numeric"
                   onChangeText={value => onChange(value)}
-                  value={value}
+                  value={value ? value.toString() : ""}
                   errorText={errors.amount?.message}
                 />
               )}
@@ -87,6 +86,15 @@ const AddScreen = () => {
               name="type"
               rules={{required: true}}
             />
+
+            {/* <Dropdown
+              data={[
+                {label: "ddd", value: "sadsad"},
+                {label: "ssss", value: "ssss"},
+              ]}
+              label="cateogy"
+              onSelect={item => console.log(item)}
+            /> */}
 
             <Controller
               control={control}

@@ -10,7 +10,9 @@
 
 - it's my first time using liteSql to store data
 - home page showing all transaction data
-- sort data by date
+- sort data by date using caustom hooks
+- insert transaction details using react form hooks and yap for validation
+- add Visual representation (chart)
 
 ## Available Scripts
 
@@ -23,5 +25,13 @@
 - to build the app for android
 
 ```shell
-    npm run android
+    yarn run android
+```
+
+- to build the app for android
+
+```shell
+    pod insatll
+    yarn run ios
+
 ```
